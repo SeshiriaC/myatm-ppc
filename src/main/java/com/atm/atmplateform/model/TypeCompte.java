@@ -11,7 +11,7 @@ public class TypeCompte {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_typecompte")
-    private Integer id;
+    private Integer idTypeCompte;
 
     private String denominationCompte;
 
@@ -21,12 +21,12 @@ public class TypeCompte {
     private Set<Compte> comptes = new LinkedHashSet<>();
 
     // Getters & Setters
-    public Integer getId() {
-        return id;
+    public Integer getIdTypeCompte() {
+        return idTypeCompte;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setIdTypeCompte(Integer idTypeCompte) {
+        this.idTypeCompte = idTypeCompte;
     }
 
     public String getDenominationCompte() {
