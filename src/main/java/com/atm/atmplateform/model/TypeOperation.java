@@ -11,7 +11,7 @@ public class TypeOperation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_typeoperation")
-    private Integer id;
+    private Integer idTypeOperation;
 
     private String denominationOperation;
 
@@ -21,12 +21,12 @@ public class TypeOperation {
     private Set<Operation> operations = new LinkedHashSet<>();
 
     // Getters & Setters
-    public Integer getId() {
-        return id;
+    public Integer getIdTypeOperation() {
+        return idTypeOperation;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setIdTypeOperation(Integer idTypeOperation) {
+        this.idTypeOperation = idTypeOperation;
     }
 
     public String getDenominationOperation() {
