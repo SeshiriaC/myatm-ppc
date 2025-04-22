@@ -11,7 +11,7 @@ public class Compte {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_compte")
-    private Integer id;
+    private Integer idCompte;
 
     private Double solde;
 
@@ -29,12 +29,12 @@ public class Compte {
     public Compte() {}
 
     // Getters & Setters
-    public Integer getId() {
-        return id;
+    public Integer getIdCompte() {
+        return idCompte;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setIdCompte(Integer idCompte) {
+        this.idCompte = idCompte;
     }
 
     public Double getSolde() {

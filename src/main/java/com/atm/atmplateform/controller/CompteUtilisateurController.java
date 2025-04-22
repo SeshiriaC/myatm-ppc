@@ -1,8 +1,11 @@
 package com.atm.atmplateform.controller;
 
+import com.atm.atmplateform.dto.CompteUtilisateurDto;
 import com.atm.atmplateform.model.CompteUtilisateur;
 import com.atm.atmplateform.service.CompteUtilisateurService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,22 +18,26 @@ public class CompteUtilisateurController {
     private CompteUtilisateurService compteUtilisateurService;
 
     @PostMapping
-    public CompteUtilisateur create(@RequestBody CompteUtilisateur compteUtilisateur) {
-        return compteUtilisateurService.save(compteUtilisateur);
+    public ResponseEntity<CompteUtilisateurDto> create(@RequestBody @Valid CompteUtilisateurDto dto) {
+        CompteUtilisateur saved = compteUtilisateurService.createFromDto(dto);
+        return ResponseEntity.ok(compteUtilisateurService.toDto(saved));
     }
 
     @GetMapping
-    public List<CompteUtilisateur> getAll() {
+    public List<CompteUtilisateurDto> getAll() {
         return compteUtilisateurService.getAll();
     }
 
     @GetMapping("/{id}")
-    public CompteUtilisateur getById(@PathVariable Integer idCompteUtilisateur) {
-        return compteUtilisateurService.getById(idCompteUtilisateur);
+    public ResponseEntity<CompteUtilisateurDto> getById(@PathVariable Integer id) {
+        CompteUtilisateurDto dto = compteUtilisateurService.getById(id);
+        return dto != null ? ResponseEntity.ok(dto) : ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable Integer idCompteUtilisateur) {
-        compteUtilisateurService.deleteById(idCompteUtilisateur);
+    public ResponseEntity<Void> delete(@PathVariable Integer id) {
+        compteUtilisateurService.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 }
+
