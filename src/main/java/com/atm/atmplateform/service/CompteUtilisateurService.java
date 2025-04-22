@@ -66,4 +66,10 @@ public class CompteUtilisateurService {
     public void deleteById(Integer id) {
         compteUtilisateurRepository.deleteById(id);
     }
+
+    public boolean verifyLogin(String mail, String rawPassword) {
+        return compteUtilisateurRepository.findByMail(mail)
+                .map(cu -> passwordEncoder.matches(rawPassword, cu.getPasswd()))
+                .orElse(false);
+    }
 }
