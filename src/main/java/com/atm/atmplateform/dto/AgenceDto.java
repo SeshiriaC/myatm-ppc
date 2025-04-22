@@ -1,30 +1,19 @@
-package com.atm.atmplateform.model;
+package com.atm.atmplateform.dto;
 
-import jakarta.persistence.*;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import jakarta.validation.constraints.NotBlank;
 
-@Entity
-@Table(name = "agences")
-public class Agence {
+public class AgenceDto {
 
-    public void setComptes(Set<Compte> comptes) {
-        this.comptes = comptes;
-    }
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_agence")
     private Integer idAgence;
 
+    @NotBlank(message = "La dénomination est requise")
     private String denominationAgence;
+
+    @NotBlank(message = "L’adresse est requise")
     private String adresseAgence;
+
+    @NotBlank(message = "La ville est requise")
     private String villeAgence;
-
-    public Agence() {}
-
-    @OneToMany(mappedBy = "agence", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Compte> comptes = new LinkedHashSet<>();
 
     // Getters & Setters
     public Integer getIdAgence() {
@@ -57,9 +46,5 @@ public class Agence {
 
     public void setVilleAgence(String villeAgence) {
         this.villeAgence = villeAgence;
-    }
-
-    public Set<Compte> getComptes() {
-        return comptes;
     }
 }
