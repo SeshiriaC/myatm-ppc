@@ -2,17 +2,16 @@ package com.atm.atmplateform.dto;
 
 public class LoginResponseDto {
 
-    private String message;
+    private String tokenOrMessage;
     private boolean success;
 
-    public LoginResponseDto(String message, boolean success) {
-        this.message = message;
+    public LoginResponseDto(String tokenOrMessage, boolean success) {
+        this.tokenOrMessage = tokenOrMessage;
         this.success = success;
     }
 
-    // Getters
-    public String getMessage() {
-        return message;
+    public String getTokenOrMessage() {
+        return tokenOrMessage;
     }
 
     public boolean isSuccess() {
