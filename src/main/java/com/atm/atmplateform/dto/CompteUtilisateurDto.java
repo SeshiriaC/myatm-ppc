@@ -30,6 +30,8 @@ public class CompteUtilisateurDto {
     @NotNull
     private Integer idTypeCompte;
 
+    private String role;
+
     // Getters & Setters
     public Integer getIdCompteUtilisateur() {
         return idCompteUtilisateur;
@@ -93,5 +95,13 @@ public class CompteUtilisateurDto {
 
     public void setIdTypeCompte(@NotNull Integer idTypeCompte) {
         this.idTypeCompte = idTypeCompte;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }

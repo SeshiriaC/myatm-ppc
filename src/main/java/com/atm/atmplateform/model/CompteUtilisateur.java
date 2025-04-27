@@ -31,6 +31,9 @@ public class CompteUtilisateur {
         this.passwd = passwd;
     }
 
+    @Column(nullable = false)
+    private String role;
+
     @OneToMany(mappedBy = "compteUtilisateur", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Operation> operations = new LinkedHashSet<>();
 
@@ -81,5 +84,13 @@ public class CompteUtilisateur {
 
     public void setOperations(Set<Operation> operations) {
         this.operations = operations;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }

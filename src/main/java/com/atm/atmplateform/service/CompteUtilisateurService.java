@@ -41,6 +41,7 @@ public class CompteUtilisateurService {
         cu.setPasswd(passwordEncoder.encode(dto.getPasswd()));
         cu.setUtilisateur(utilisateur);
         cu.setCompte(compte);
+        cu.setRole(dto.getRole() != null ? dto.getRole() : "USER");
 
         return compteUtilisateurRepository.save(cu);
     }
