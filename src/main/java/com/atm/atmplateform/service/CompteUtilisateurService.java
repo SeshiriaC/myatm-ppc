@@ -28,9 +28,13 @@ public class CompteUtilisateurService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private CompteService compteService;
+
     public CompteUtilisateur createFromDto(CompteUtilisateurDto dto) {
         Utilisateur utilisateur = utilisateurRepository.findById(dto.getIdUtilisateur()).orElseThrow();
-        Compte compte = compteRepository.findById(dto.getIdCompte()).orElseThrow();
+
+        Compte compte = compteService.createCompte(dto.getSolde(), dto.getIdAgence(), dto.getIdTypeCompte());
 
         CompteUtilisateur cu = new CompteUtilisateur();
         cu.setMail(dto.getMail());

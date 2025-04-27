@@ -21,6 +21,15 @@ public class CompteUtilisateurDto {
     @NotNull(message = "L’ID compte est requis")
     private Integer idCompte;
 
+    @NotNull
+    private Double solde;
+
+    @NotNull
+    private Integer idAgence;
+
+    @NotNull
+    private Integer idTypeCompte;
+
     // Getters & Setters
     public Integer getIdCompteUtilisateur() {
         return idCompteUtilisateur;
@@ -60,5 +69,29 @@ public class CompteUtilisateurDto {
 
     public void setIdCompte(Integer idCompte) {
         this.idCompte = idCompte;
+    }
+
+    public @NotNull Double getSolde() {
+        return solde;
+    }
+
+    public void setSolde(@NotNull Double solde) {
+        this.solde = solde;
+    }
+
+    public @NotNull Integer getIdAgence() {
+        return idAgence;
+    }
+
+    public void setIdAgence(@NotNull Integer idAgence) {
+        this.idAgence = idAgence;
+    }
+
+    public @NotNull Integer getIdTypeCompte() {
+        return idTypeCompte;
+    }
+
+    public void setIdTypeCompte(@NotNull Integer idTypeCompte) {
+        this.idTypeCompte = idTypeCompte;
     }
 }

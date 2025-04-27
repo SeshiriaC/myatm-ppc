@@ -24,6 +24,18 @@ public class CompteService {
     @Autowired
     private TypeCompteRepository typeCompteRepository;
 
+    public Compte createCompte(Double solde, Integer idAgence, Integer idTypeCompte) {
+        Agence agence = agenceRepository.findById(idAgence).orElseThrow();
+        TypeCompte typeCompte = typeCompteRepository.findById(idTypeCompte).orElseThrow();
+
+        Compte compte = new Compte();
+        compte.setSolde(solde);
+        compte.setAgence(agence);
+        compte.setTypeCompte(typeCompte);
+
+        return compteRepository.save(compte);
+    }
+
     public Compte createFromDto(CompteDto dto) {
         Agence agence = agenceRepository.findById(dto.getIdAgence()).orElseThrow();
         TypeCompte typeCompte = typeCompteRepository.findById(dto.getIdTypeCompte()).orElseThrow();

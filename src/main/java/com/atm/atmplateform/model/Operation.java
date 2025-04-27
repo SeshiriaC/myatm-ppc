@@ -10,7 +10,7 @@ public class Operation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_operation")
-    private Integer id;
+    private Integer idOperation;
 
     private Double valeur;
 
@@ -28,12 +28,12 @@ public class Operation {
     public Operation() {}
 
     // Getters & Setters
-    public Integer getId() {
-        return id;
+    public Integer getIdOperation() {
+        return idOperation;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setIdOperation(Integer idOperation) {
+        this.idOperation = idOperation;
     }
 
     public Double getValeur() {
