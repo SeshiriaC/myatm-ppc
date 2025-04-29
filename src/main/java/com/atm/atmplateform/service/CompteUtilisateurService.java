@@ -7,6 +7,7 @@ import com.atm.atmplateform.model.Utilisateur;
 import com.atm.atmplateform.repository.CompteRepository;
 import com.atm.atmplateform.repository.CompteUtilisateurRepository;
 import com.atm.atmplateform.repository.UtilisateurRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -32,19 +33,42 @@ public class CompteUtilisateurService {
     private CompteService compteService;
 
     public CompteUtilisateur createFromDto(CompteUtilisateurDto dto) {
-        Utilisateur utilisateur = utilisateurRepository.findById(dto.getIdUtilisateur()).orElseThrow();
+        if ("ADMIN".equals(dto.getRole())) {
+            // Création de l'admin sans compte (pas besoin de vérifier l'utilisateur)
+            CompteUtilisateur cu = new CompteUtilisateur();
+            cu.setMail(dto.getMail());
+            cu.setPasswd(passwordEncoder.encode(dto.getPasswd()));
+            cu.setRole("ADMIN");
 
-        Compte compte = compteService.createCompte(dto.getSolde(), dto.getIdAgence(), dto.getIdTypeCompte());
+            // L'admin n'a pas besoin d'être lié à un Utilisateur
+            return compteUtilisateurRepository.save(cu);
+        } else {
+            // Vérification que pour un utilisateur normal, `id_compte` ne peut pas être null
+            if (dto.getIdCompte() == null) {
+                throw new IllegalArgumentException("Le champ idCompte ne peut pas être null pour un utilisateur normal.");
+            }
 
-        CompteUtilisateur cu = new CompteUtilisateur();
-        cu.setMail(dto.getMail());
-        cu.setPasswd(passwordEncoder.encode(dto.getPasswd()));
-        cu.setUtilisateur(utilisateur);
-        cu.setCompte(compte);
-        cu.setRole(dto.getRole() != null ? dto.getRole() : "USER");
+            // Vérification de l'existence du `Compte`
+            Compte compte = compteRepository.findById(dto.getIdCompte())
+                    .orElseThrow(() -> new EntityNotFoundException("Compte introuvable pour l'utilisateur : " + dto.getIdCompte()));
 
-        return compteUtilisateurRepository.save(cu);
+            // Vérification de l'existence de l'Utilisateur (nécessaire pour un utilisateur normal)
+            Utilisateur utilisateur = utilisateurRepository.findById(dto.getIdUtilisateur())
+                    .orElseThrow(() -> new EntityNotFoundException("Utilisateur introuvable : " + dto.getIdUtilisateur()));
+
+            // Création du compte utilisateur
+            CompteUtilisateur cu = new CompteUtilisateur();
+            cu.setMail(dto.getMail());
+            cu.setPasswd(passwordEncoder.encode(dto.getPasswd()));
+            cu.setRole("USER");
+            cu.setCompte(compte); // Associer le compte bancaire à l'utilisateur
+            cu.setUtilisateur(utilisateur); // Lier l'utilisateur au compte utilisateur
+
+            return compteUtilisateurRepository.save(cu);
+        }
     }
+
+
 
     public CompteUtilisateurDto toDto(CompteUtilisateur cu) {
         CompteUtilisateurDto dto = new CompteUtilisateurDto();

@@ -2,7 +2,6 @@ package com.atm.atmplateform.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
@@ -22,8 +21,10 @@ public class SecurityConfig {
         return http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/login").permitAll() // accès libre pour login
-                        .anyRequest().authenticated() // toutes les autres routes nécessitent un token
+                        .requestMatchers("/api/login").permitAll()
+                        .requestMatchers("/api/utilisateurs/**", "/api/agences/**", "/api/typescomptes/**").hasRole("ADMIN") // accessible uniquement aux ADMIN
+                        .requestMatchers("/api/comptesutilisateurs/**", "/api/operations/**").hasRole("USER") // accessible uniquement aux USER
+                        .anyRequest().authenticated() // toute autre route nécessite un token
                 )
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -31,4 +32,5 @@ public class SecurityConfig {
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
+
 }

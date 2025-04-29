@@ -27,6 +27,11 @@ public class OperationService {
     private CompteUtilisateurRepository compteUtilisateurRepository;
 
     public Operation createFromDto(OperationDto dto) {
+        //Vérifier que compte utilisateur est pas null
+        if (dto.getIdCompteUtilisateur() == null) {
+            throw new IllegalArgumentException("Le champ idCompteUtilisateur ne peut pas être null.");
+        }
+
         // Vérifier l'existence du TypeOperation
         TypeOperation typeOperation = typeOperationRepository.findById(dto.getIdTypeOperation())
                 .orElseThrow(() -> new EntityNotFoundException("TypeOperation introuvable : " + dto.getIdTypeOperation()));

@@ -48,10 +48,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     .getBody();
 
             String mail = (String) claims.get("mail");
+            String role = (String) claims.get("role");
 
-            if (mail != null) {
+            if (mail != null && role != null) {
                 UsernamePasswordAuthenticationToken authenticationToken =
-                        new UsernamePasswordAuthenticationToken(mail, null, Collections.emptyList());
+                        new UsernamePasswordAuthenticationToken(
+                                mail,
+                                null,
+                                Collections.singleton(() -> "ROLE_" + role) // ajoute "ROLE_" devant
+                        );
                 authenticationToken.setDetails(
                         new WebAuthenticationDetailsSource().buildDetails(request)
                 );
@@ -65,4 +70,5 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         filterChain.doFilter(request, response);
     }
+
 }
