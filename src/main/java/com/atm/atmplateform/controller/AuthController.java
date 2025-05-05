@@ -30,6 +30,8 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDto> login(@RequestBody @Valid LoginRequestDto request) {
+        System.out.println("LoginRequestDto: " + request.getMail());
+
         Optional<CompteUtilisateur> optionalCU = compteUtilisateurRepository.findByMail(request.getMail());
 
         if (optionalCU.isPresent() && passwordEncoder.matches(request.getPasswd(), optionalCU.get().getPasswd())) {
@@ -39,6 +41,7 @@ public class AuthController {
             claims.put("mail", cu.getMail());
             claims.put("role", cu.getRole());
             claims.put("idCompteUtilisateur", cu.getIdCompteUtilisateur());
+
 
             String jwtToken = jwtUtil.generateToken(claims);
 
