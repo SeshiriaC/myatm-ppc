@@ -44,10 +44,13 @@ public class AuthController {
 
 
             String jwtToken = jwtUtil.generateToken(claims);
+            System.out.println("C'est fait");
 
             return ResponseEntity.ok(new LoginResponseDto(jwtToken, true));
         } else {
+            System.out.println("Ici");
             return ResponseEntity.status(401).body(new LoginResponseDto("Identifiants invalides", false));
+
         }
     }
 }
