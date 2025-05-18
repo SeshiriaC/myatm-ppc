@@ -17,16 +17,22 @@ public class Compte {
 
     @ManyToOne
     @JoinColumn(name = "id_agence", nullable = false)
-    private Agence agence;
+    private Agence idAgence;
 
     @ManyToOne
     @JoinColumn(name = "id_typecompte", nullable = false)
-    private TypeCompte typeCompte;
+    private TypeCompte idTypeCompte;
 
     @OneToMany(mappedBy = "compte", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<CompteUtilisateur> comptesUtilisateurs = new LinkedHashSet<>();
 
     public Compte() {}
+
+    public Compte(Double solde, Agence idAgence, TypeCompte IdTypeCompte) {
+        this.solde = solde;
+        this.idAgence = idAgence;
+        this.idTypeCompte = IdTypeCompte;
+    }
 
     // Getters & Setters
     public Integer getIdCompte() {
@@ -45,20 +51,20 @@ public class Compte {
         this.solde = solde;
     }
 
-    public Agence getAgence() {
-        return agence;
+    public Agence getIdAgence() {
+        return idAgence;
     }
 
-    public void setAgence(Agence agence) {
-        this.agence = agence;
+    public void setIdAgence(Agence idAgence) {
+        this.idAgence = idAgence;
     }
 
-    public TypeCompte getTypeCompte() {
-        return typeCompte;
+    public TypeCompte getIdTypeCompte() {
+        return idTypeCompte;
     }
 
-    public void setTypeCompte(TypeCompte typeCompte) {
-        this.typeCompte = typeCompte;
+    public void setIdTypeCompte(TypeCompte idTypeCompte) {
+        this.idTypeCompte = idTypeCompte;
     }
 
     public Set<CompteUtilisateur> getComptesUtilisateurs() {

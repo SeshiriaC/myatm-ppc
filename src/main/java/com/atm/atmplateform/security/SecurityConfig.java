@@ -30,10 +30,30 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource())) // CORS activé ici
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/login").permitAll()
-                        .requestMatchers("/api/utilisateurs/**", "/api/agences/**", "/api/typescomptes/**").hasRole("ADMIN")
-                        .requestMatchers("/api/comptesutilisateurs/**", "/api/operations/**").hasRole("USER")
+                        .requestMatchers("/api/**").permitAll()
+
+
+                        /*
+                        // ADMIN : gestion du système
+                        .requestMatchers(
+                                "/api/utilisateurs/**",
+                                "/api/agences/**",
+                                "/api/typescomptes/**",
+                                "/api/comptesutilisateurs/**"
+                        ).hasRole("ADMIN")
+
+                        // USER : opérations personnelles
+                        .requestMatchers(
+                                "/api/operations/**",
+                                "/api/historique/**"
+                        ).hasRole("USER")
+
+                        // Accès partagés USER/ADMIN : lecture/gestion comptes
+                        .requestMatchers("/api/comptes/**").hasAnyRole("USER", "ADMIN")*/
+
                         .anyRequest().authenticated()
                 )
+
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

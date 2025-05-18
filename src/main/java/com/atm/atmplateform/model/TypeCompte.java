@@ -17,7 +17,7 @@ public class TypeCompte {
 
     public TypeCompte() {}
 
-    @OneToMany(mappedBy = "typeCompte", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "idTypeCompte", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Compte> comptes = new LinkedHashSet<>();
 
     // Getters & Setters

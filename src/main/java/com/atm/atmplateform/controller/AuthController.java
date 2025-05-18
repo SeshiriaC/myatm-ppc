@@ -41,7 +41,7 @@ public class AuthController {
             claims.put("mail", cu.getMail());
             claims.put("role", cu.getRole());
             claims.put("idCompteUtilisateur", cu.getIdCompteUtilisateur());
-
+            System.out.println("Compte Utilisateur: "+cu.getIdCompteUtilisateur());
 
             String jwtToken = jwtUtil.generateToken(claims);
             System.out.println("C'est fait");

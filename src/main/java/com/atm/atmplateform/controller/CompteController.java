@@ -19,9 +19,17 @@ public class CompteController {
 
     @PostMapping
     public ResponseEntity<CompteDto> create(@RequestBody @Valid CompteDto dto) {
-        Compte compte = compteService.createFromDto(dto);
-        return ResponseEntity.ok(compteService.toDto(compte));
+        try {
+            System.out.println("Réponse: Création du dto compte ...");
+            Compte compte = compteService.createFromDto(dto);
+            System.out.println("dto compte créé");
+            return ResponseEntity.ok(compteService.toDto(compte));
+        } catch (Exception e) {
+            System.out.println("Erreur lors de la création du compte: " + e.getMessage());
+            return ResponseEntity.status(500).body(null); // Retourne un code d'erreur 500 en cas d'échec
+        }
     }
+
 
     @GetMapping
     public List<CompteDto> getAll() {
@@ -39,4 +47,15 @@ public class CompteController {
         compteService.deleteById(idCompte);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/solde/{idCompteUtilisateur}")
+    public ResponseEntity<CompteDto> getBalanceByCompteUtilisateur(@PathVariable Integer idCompteUtilisateur) {
+        CompteDto compteDto = compteService.getBalanceByCompteUtilisateur(idCompteUtilisateur);
+        if (compteDto != null) {
+            return ResponseEntity.ok(compteDto);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 }

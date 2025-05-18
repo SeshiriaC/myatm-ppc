@@ -15,6 +15,18 @@ public class CompteDto {
     @NotNull(message = "Le type de compte est requis")
     private Integer idTypeCompte;
 
+    //Constructeur
+
+    public CompteDto(Integer idCompte, Double solde, Integer idAgence, Integer idTypeCompte) {
+        this.idCompte = idCompte;
+        this.solde = solde;
+        this.idAgence = idAgence;
+        this.idTypeCompte = idTypeCompte;
+    }
+
+    public CompteDto() {
+    }
+
     // Getters & Setters
     public Integer getIdCompte() {
         return idCompte;

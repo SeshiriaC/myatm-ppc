@@ -23,7 +23,7 @@ public class Agence {
 
     public Agence() {}
 
-    @OneToMany(mappedBy = "agence", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "idAgence", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Compte> comptes = new LinkedHashSet<>();
 
     // Getters & Setters
