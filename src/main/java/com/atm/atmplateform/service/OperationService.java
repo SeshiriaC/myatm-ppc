@@ -87,8 +87,11 @@ public class OperationService {
         dto.setValeur(operation.getValeur());
         dto.setIdTypeOperation(operation.getTypeOperation().getIdTypeOperation());
         dto.setIdCompteUtilisateur(operation.getCompteUtilisateur().getIdCompteUtilisateur());
+        dto.setDateOperation(operation.getDateOperation());
+        dto.setDenominationOperation(operation.getTypeOperation().getDenominationOperation());
         return dto;
     }
+
 
     public List<OperationDto> getAll() {
         return operationRepository.findAll()

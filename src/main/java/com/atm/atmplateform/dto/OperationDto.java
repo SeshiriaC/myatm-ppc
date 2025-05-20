@@ -1,6 +1,9 @@
 package com.atm.atmplateform.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotNull;
+
+import java.time.LocalDateTime;
 
 public class OperationDto {
 
@@ -14,6 +17,11 @@ public class OperationDto {
 
     @NotNull(message = "Le compte utilisateur est requis")
     private Integer idCompteUtilisateur;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime dateOperation;
+
+    private String denominationOperation;
 
     // Getters & Setters
     public Integer getIdOperation() {
@@ -46,5 +54,21 @@ public class OperationDto {
 
     public void setIdCompteUtilisateur(Integer idCompteUtilisateur) {
         this.idCompteUtilisateur = idCompteUtilisateur;
+    }
+
+    public LocalDateTime getDateOperation() {
+        return dateOperation;
+    }
+
+    public void setDateOperation(LocalDateTime dateOperation) {
+        this.dateOperation = dateOperation;
+    }
+
+    public String getDenominationOperation() {
+        return denominationOperation;
+    }
+
+    public void setDenominationOperation(String denominationOperation) {
+        this.denominationOperation = denominationOperation;
     }
 }
