@@ -8,13 +8,14 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.security.Key;
-import java.util.Collections;
+import java.util.List;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -47,19 +48,26 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     .parseClaimsJws(jwtToken)
                     .getBody();
 
-            String mail = (String) claims.get("mail");
-            String role = (String) claims.get("role");
+            String mail = claims.get("mail", String.class);
+            String role = claims.get("role", String.class);
+            Integer idCompteUtilisateur = claims.get("idCompteUtilisateur", Integer.class);
 
-            if (mail != null && role != null) {
+            if (mail != null && role != null && idCompteUtilisateur != null) {
+                CustomUserDetails userDetails = new CustomUserDetails(
+                        idCompteUtilisateur,
+                        mail,
+                        "", // mot de passe non nécessaire ici
+                        List.of(new SimpleGrantedAuthority("ROLE_" + role))
+                );
+
                 UsernamePasswordAuthenticationToken authenticationToken =
                         new UsernamePasswordAuthenticationToken(
-                                mail,
+                                userDetails,
                                 null,
-                                Collections.singleton(() -> "ROLE_" + role) // ajoute "ROLE_" devant
+                                userDetails.getAuthorities()
                         );
-                authenticationToken.setDetails(
-                        new WebAuthenticationDetailsSource().buildDetails(request)
-                );
+
+                authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             }
 
@@ -70,5 +78,4 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         filterChain.doFilter(request, response);
     }
-
 }

@@ -34,6 +34,7 @@ public class AuthController {
 
         Optional<CompteUtilisateur> optionalCU = compteUtilisateurRepository.findByMail(request.getMail());
 
+
         if (optionalCU.isPresent() && passwordEncoder.matches(request.getPasswd(), optionalCU.get().getPasswd())) {
             CompteUtilisateur cu = optionalCU.get();
 
@@ -44,11 +45,11 @@ public class AuthController {
             System.out.println("Compte Utilisateur: "+cu.getIdCompteUtilisateur());
 
             String jwtToken = jwtUtil.generateToken(claims);
-            System.out.println("C'est fait");
+            System.out.println("Token créé");
 
             return ResponseEntity.ok(new LoginResponseDto(jwtToken, true));
         } else {
-            System.out.println("Ici");
+            System.out.println("Identifiants invalides");
             return ResponseEntity.status(401).body(new LoginResponseDto("Identifiants invalides", false));
 
         }

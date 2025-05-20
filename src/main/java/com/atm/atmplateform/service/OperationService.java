@@ -72,6 +72,15 @@ public class OperationService {
         return operationRepository.save(operation);
     }
 
+    public List<OperationDto> getDernieresOperationsParUtilisateur(Integer idCompteUtilisateur) {
+        return operationRepository
+                .findTop5ByCompteUtilisateurIdCompteUtilisateurOrderByDateOperationDesc(idCompteUtilisateur)
+                .stream()
+                .map(this::toDto)
+                .toList();
+    }
+
+
     public OperationDto toDto(Operation operation) {
         OperationDto dto = new OperationDto();
         dto.setIdOperation(operation.getIdOperation());
